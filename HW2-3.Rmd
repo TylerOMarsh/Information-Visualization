@@ -1,0 +1,140 @@
+Setting my wd and importing the data
+```{r}
+getwd()
+
+
+
+# character vector csv files to read in
+
+file_list <- list.files(pattern = ".csv")
+
+#prints out all the datasets I downloaded for the weeks homework
+file_list
+
+#for each name access the file and store in a df
+
+art <- read.csv(file = file_list[1], header= TRUE, sep = ",")
+
+flowingdata <- read.csv(file = file_list[2], header= TRUE, sep = ",")
+
+hotDogContest <- read.csv(file = file_list[3], header= TRUE, sep = ",")
+
+hotDogPlaces <- read.csv(file = file_list[4], header= TRUE, sep = ",")
+
+unemploymentRate <- read.csv(file = file_list[5], header= TRUE, sep = ",")
+
+usPostage<- read.csv(file = file_list[6], header= TRUE, sep = ",")
+
+
+worldPop <- read.csv(file = file_list[7], header= TRUE, sep = ",")
+
+
+
+```
+
+
+Making the plots
+```{r}
+# change margins so that our labels will appear
+
+
+par(mar=c(5,6,4,1)+.1)
+
+
+
+#the first plot
+
+
+fill_colors <- c()
+for ( i in 1:length(hotDogContest$Country) ) {
+  if (hotDogContest$Country[i] == "United States") {
+    fill_colors <- c(fill_colors, "#821122")
+  } else {
+    fill_colors <- c(fill_colors, "#cccccc")
+  }
+}
+
+barplot(hotDogContest$Dogs.eaten, names.arg=hotDogContest$Year, col=fill_colors, space= 0.3, border= NA, xlab="Year", ylab="Hot dogs and buns (HDB) eaten", main= "Nathan's Hot Dog Eating Contest Results, 1980-2010", axis.lty=  )
+
+
+#second plot
+hotDogPlaces
+
+names(hotDogPlaces) <- c("2000", "2001", "2002", "2003", "2004", "2005", "2006", "2007", "2008", "2009", "2010")
+
+
+hot_dog_matrix <- as.matrix(hotDogPlaces)
+
+#place data into a matrix for stacked bar chart
+
+barplot(hot_dog_matrix, border=NA, space=0.25, ylim=c(0, 200), xlab="Year", ylab="Hot dogs and buns (HDBs) eaten", main="Hot Dog Eating Contest Results, 1980-2010")
+
+
+#third plot
+
+plot(flowingdata$Subscribers, type="h", ylim=c(0, 30000),
+     xlab="Day", ylab="Subscribers")
+points(flowingdata$Subscribers, pch=19, col="black")
+
+#fourth plot
+plot(worldPop$Year, worldPop$Population, type="l",
+     ylim=c(0, 7000000000), xlab="Year", ylab="Population")
+
+#fifth plot
+plot(usPostage$Year, usPostage$Price, type="s",
+      main="US Postage Rates for Letters, First Ounce, 1991-
+2010",
+      xlab="Year", ylab="Postage Rate (Dollars)")
+
+
+#sixth plot
+scatter.smooth(x=1:length(unemploymentRate$Value),
+               y=unemploymentRate$Value, ylim=c(0,11), degree=2, col="#CCCCCC", span=0.5)
+
+Change setting so that our next plots will all appear on the same page
+
+Looking at the distribution of sales in the art dataset.
+
+```{r}
+
+par(mfrow=c(2,2)) 
+
+#first plot
+boxplot(art$total.sale, horizontal =TRUE, main = "Boxplot Distribution Total Sales", xlab= "Total Sales", col = "yellow")
+
+
+
+#second plot
+
+hist(art$total.sale, breaks=10, main = "Histogram Distribution Total Sales", ylab = "volume of sales", xlab = "price per unit", col = "orange")
+
+#subset the data
+dfDraw    <- art[art$paper == "drawing",]
+
+#create density of distribution
+dfDrawd <- density(dfDraw$total.sale)
+
+#plot the density distribution
+plot(dfDrawd, main = "Distribution Drawing Paper Sales")
+
+#fill the plot with color like paper for aesthetics
+
+polygon(dfDrawd, col = "beige", border = "black") # beige = paper color
+
+#show distribution by showing lines where occurances are
+rug1 <- rug(dfDraw$total.sale, col = "black")
+
+
+#fourth plot
+dfWater    <- art[art$paper == "watercolor",]
+Waterd <- density(dfWater$total.sale)
+plot(Waterd, main ="Distribution Watercolor Sales", xlab = "price per unit", ylab= "density of sales")
+polygon(Waterd, col = "lightblue", border = "black") # don't assign as variable just run command
+Rug1 <- rug(dfWater$total.sale, col = "lightblue")
+
+
+
+               
+               
+               
+    
