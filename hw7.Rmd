@@ -1,0 +1,47 @@
+---
+title: "HW7"
+author: "Me"
+date: "August 21, 2019"
+output: html_document
+---
+#Re-level the factors so the charts appear in the same order
+```{r}
+library(ggplot2)
+data(diamonds)
+diamonds$clarity <- factor(diamonds$clarity, levels=c("SI2","SI1","VS1", "VS2","VVS2", "VVS1","I1", "IF"))
+
+
+
+
+ggplot(data = diamonds, aes(x = clarity, y = price, fill = clarity))+ scale_fill_manual(values=c("#E997A5","#C99651", "#98A347", "#4AB071", "#49ACA1", "#52AFCB", "#B5A7F0", "#E38FDB")) + stat_boxplot(geom = "errorbar", width = .45) + geom_boxplot(outlier.shape = 23, outlier.color = '#444548', outlier.fill = '#444548', coef = 1.5) + guides(fill = FALSE) + ylim(0, 20000)
+
+
+ggplot(data = diamonds, aes(x = clarity, y = carat, fill = clarity))+ scale_fill_manual(values=c("#E997A5","#C99651", "#98A347", "#4AB071", "#49ACA1", "#52AFCB", "#B5A7F0", "#E38FDB")) + stat_boxplot(geom = "errorbar", width = .45) + geom_boxplot(outlier.shape = 23, outlier.color = '#444548', outlier.fill = '#444548', coef = 1.5) + guides(fill = FALSE)
+```
+
+
+
+#Change the factor levels so the plots appear in the same order
+
+```{r}
+
+diamonds$clarity<-factor(diamonds$clarity, levels=c("I1", "IF", "SI1", "SI2", "VS1", "VS2", "VVS1", "VVS2"))
+
+#unique(diamonds$color)
+
+diamonds$color <- factor(diamonds$color, levels=c("J", "I", "H", "G", "F", "E", "D"))
+```
+
+
+
+#You can also embed plots, for example:
+
+```{r}
+ggplot(data = diamonds, aes(x = clarity, fill= color)) +geom_bar(width = .5) +
+  scale_fill_manual(values=c("#F4B2BB","#95BB50","#F6BE73","#79747B","#9C94CD","#3B83AA", "#DC4B43")) +
+  scale_y_continuous(breaks=c(0, 2000, 4000, 6000, 8000, 10000, 12000, 14000, 16000))+ theme(legend.position = c(0.95, .8))+
+  guides(fill = guide_legend(reverse = TRUE))
+
+```
+
+
