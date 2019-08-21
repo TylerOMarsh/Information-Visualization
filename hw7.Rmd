@@ -4,6 +4,11 @@ author: "Me"
 date: "August 21, 2019"
 output: html_document
 ---
+
+#the goal was to make ggplot graphs like the Seaborn graphs found here:
+          
+              https://adataanalyst.com/data-analysis-resources/visualise-categorical-variables-in-python/
+              
 #Re-level the factors so the charts appear in the same order
 ```{r}
 library(ggplot2)
