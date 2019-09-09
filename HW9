@@ -1,0 +1,42 @@
+# Create an Rshiny app on the gapminder data.
+
+
+library(gapminder)
+library(shiny)
+data("gapminder")
+
+
+ui <- fluidPage(
+  h1("Population Analysis"),
+  # Add a continent selector dropdown
+  selectInput("continent", "Continent", choices = levels(gapminder$continent)),
+  # Add year selector dropdown
+  selectInput("year", "Year", choices = gapminder$year),
+  plotOutput("plot1"),
+  plotOutput("plot2")
+)
+
+server <- function(input, output) {
+  output$plot1 <- renderPlot({
+  #require continent input to render plot
+    req(input$continent)
+   #require year input to render plot
+    req(input$year)
+    data <- gapminder %>% select(continent, year, pop) %>% filter(continent == input$continent)  %>% group_by(continent, year) %>% summarize(pop = sum(pop))
+    ggplot(data, aes(x = year, y = pop)) + geom_bar(stat = 'identity', fill = "blue") + scale_x_continuous(name = "year", breaks = seq(1952, 2007, 5))  + ggtitle("Aggregation by continent")
+    #ggplot(data = data, aes(x=year, y = pop)) +labs(y="Population") + geom_bar(stat= 'identity', fill = "blue") + scale_x_continuous(name = "Year", breaks = seq(1952, 2007, 5))
+
+  } 
+  )
+   
+  output$plot2 <- renderPlot({
+    by_Country <- gapminder %>%  select(year, continent, country, pop) %>%  filter(continent == input$continent, year == input$year)
+    
+    
+    
+    ggplot(by_Country, aes(x = country, y = pop)) + geom_bar(stat = 'identity', fill = "red") + theme(axis.text.x = element_text(angle = 90)) + ggtitle("Population by Country by Year")
+  })
+}
+
+shinyApp(ui, server)
+
