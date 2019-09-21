@@ -10,7 +10,7 @@
   
 <h2>  HW7 </h2> demonstrates the customizability of ggplot2. The plots are recreations of visualization made from python visualization modules </p2>
 
-<h2> Final Project </h2>  Mario_Poster_FINAL_2.pdf is my final project infographic. You MUST download it to fully view the infographic. GitHub does not display all the details of the file </p2>
+<h2> Final Project </h2>  Final Project Viz.pdf is my final project infographic. You MUST download it to fully view the infographic. GitHub does not display all the details of the file. It is an exciting comparison of Nintendo versus competition in the video game industry. </p2>
 
 
 
